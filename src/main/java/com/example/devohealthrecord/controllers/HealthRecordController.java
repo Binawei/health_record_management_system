@@ -6,7 +6,6 @@ import com.example.devohealthrecord.entities.HealthRecord;
 import com.example.devohealthrecord.exception.CommonApplicationException;
 import com.example.devohealthrecord.security.JWTService;
 import com.example.devohealthrecord.services.HealthRecordServics;
-import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +31,6 @@ public class HealthRecordController {
     }
 
     @GetMapping("/{recordId}")
-    @ApiOperation(value = "get Record details by id", notes = "Provide an Id to get the record of that health",
-            response = GenericResponse.class)
     public ResponseEntity<GenericResponse<?>> viewHealthRecordBYId(
             @PathVariable Long recordId,
             @RequestHeader("Authorization") String authorizationHeader

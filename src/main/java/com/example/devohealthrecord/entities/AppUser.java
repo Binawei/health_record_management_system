@@ -4,8 +4,6 @@ import com.example.devohealthrecord.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,19 +20,14 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@ApiModel(description ="This is the Patient that will be using the application")
 public class AppUser  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ApiModelProperty(notes = "The patients firstName and LastName")
     private String fullName;
-    @ApiModelProperty(notes = "Users phoneNumber")
     private String phoneNumber;
     private String password;
-    @ApiModelProperty(notes = "A unique name generated for the user")
     private String patientId;
-    @ApiModelProperty(notes = "The users email")
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -27,8 +27,8 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true
+//        securedEnabled = true,
+//        jsr250Enabled = true
 )
 public class SecurityConfiguration {
     private final HealthRecordFilter healthRecordFilter;
@@ -38,10 +38,21 @@ public class SecurityConfiguration {
         httpSecurity
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authz)->authz
-                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui.html/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/api/v1/patient/")).hasAnyRole(Role.PATIENT.name(), Role.DOCTOR.name())
+                .authorizeHttpRequests(authz->authz
+                        .requestMatchers(
+                               "/swagger-ui.html",
+                                "/webjars/**",
+                                "/swagger-ui/**",
+                                "configuration/security",
+                                "configuration/ui",
+                                "/swagger-resources/**",
+                                "/swagger-resources",
+                                "/v2/api-docs",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/api/v1/auth/**"
+                        ).permitAll()
+                        .requestMatchers("/api/v1/patient/").hasAnyRole(Role.PATIENT.name(), Role.DOCTOR.name())
                         .anyRequest().authenticated())
                 .addFilterBefore(healthRecordFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
