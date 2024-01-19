@@ -68,7 +68,11 @@ public class HealthRecordServiceImpl implements HealthRecordServics{
 
             HealthRecordResponse response = HealthRecordResponse.builder().doctorEmail(doctor.getEmail())
                     .patientNumber(user.getPatientId()).userEmail(user.getEmail()).userName(user.getFullName())
-                    .respirationRate(healthRecord.getRespirationRate()).pulseRate(healthRecord.getPulseRate()) .build();
+                    .respirationRate(healthRecord.getRespirationRate()).pulseRate(healthRecord.getPulseRate())
+                    .bloodGroup(healthRecord.getBloodGroup()).doctorId(doctor.getDoctorId())
+                    .genoType(healthRecord.getGenoType())
+                    .bloodGroup(healthRecord.getBloodGroup()).bodyTemperature(healthRecord.getBodyTemperature())
+                    .medications(healthRecord.getMedications()).build();
 
             return new GenericResponse<>("00", "Success", response, "Health Record created successfully", HttpStatus.OK);
 
@@ -83,13 +87,13 @@ public class HealthRecordServiceImpl implements HealthRecordServics{
             log.info("Found record with recordId {}", recordId);
            HealthRecord record = recordOptional.get();
             log.info(record.toString());
-            HealthRecordResponse response = HealthRecordResponse.builder().doctorEmail(record.getDoctor().getEmail())
+            HealthRecordResponse healthRecordresponse = HealthRecordResponse.builder().doctorEmail(record.getDoctor().getEmail())
                     .userName(record.getUser().getFullName())
                     .bloodGroup(record.getBloodGroup()).bodyTemperature(record.getBodyTemperature())
                     .patientNumber(record.getPatientId()).medications(record.getMedications())
                     .genoType(record.getGenoType()).pulseRate(record.getPulseRate())
                     .respirationRate(record.getRespirationRate()).build();
-            return new GenericResponse<>("00", "Success", response, "OK");
+            return new GenericResponse<>("00", "Success", healthRecordresponse, "OK");
         } else {
             throw new CommonApplicationException("Order does not exist");
         }
@@ -167,24 +171,24 @@ public class HealthRecordServiceImpl implements HealthRecordServics{
 
     @Override
     public GenericResponse<String> deleteRecord(Long recordId, String userEmail) {
-        log.info("Checking if order exists");
-        Optional<HealthRecord> optionalOrder = healthRecordRepository.findById(recordId);
-        if (optionalOrder.isEmpty()) {
-            log.error("Order not found for ID: {}", recordId);
-            return new GenericResponse<>("10", "Order not found", HttpStatus.NOT_FOUND);
+        log.info("Checking if record exists");
+        Optional<HealthRecord> optionalRecord = healthRecordRepository.findById(recordId);
+        if (optionalRecord.isEmpty()) {
+            log.error("Record not found for ID: {}", recordId);
+            return new GenericResponse<>("10", "Record not found", HttpStatus.NOT_FOUND);
         }
-        HealthRecord healthRecord = optionalOrder.get();
-        log.info("Checking if the user has permission to delete the order");
+        HealthRecord healthRecord = optionalRecord.get();
+        log.info("Checking if the user has permission to delete the Record");
 
-        if (!userEmail.equals(healthRecord.getUser().getEmail())) {
+        if (!userEmail.equals(healthRecord.getDoctor().getEmail())) {
             log.error("User is not the creator of this record");
             return new GenericResponse<>("10", "User is not a Doctor", HttpStatus.FORBIDDEN);
         }
 
-        log.info("Deleting the order");
+        log.info("Deleting the Record");
         healthRecordRepository.deleteById(recordId);
-        log.info("Order deleted successfully");
+        log.info("Record deleted successfully");
 
-        return new GenericResponse<>("00", "Record deleted successfully", HttpStatus.OK);
+        return new GenericResponse<>("00", "Record deleted successfully", HttpStatus.OK,"Success");
     }
 }

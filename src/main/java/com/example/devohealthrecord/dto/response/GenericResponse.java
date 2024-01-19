@@ -27,6 +27,13 @@ public class GenericResponse<T> {
         this.data = data;
         this.status = status;
     }
+    public GenericResponse(String code, String message,HttpStatus httpStatus, String status) {
+        this.code = code;
+        this.message = message;
+        this.httpStatus = httpStatus;
+        this.status = status;
+    }
+
 
     public GenericResponse(String code, String message, HttpStatus httpStatus) {
         this.code = code;

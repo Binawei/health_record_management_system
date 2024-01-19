@@ -74,4 +74,17 @@ public class HealthRecordController {
         GenericResponse<HealthRecordResponse> updatedOrder = healthRecordServics.updateHealthRecord(orderId, request, userEmail);
         return new ResponseEntity<>(updatedOrder, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{recordId}")
+    public ResponseEntity<GenericResponse<String>> deleteHealthRecord(
+            @PathVariable Long recordId,
+            @RequestHeader("Authorization") String authorizationHeader
+    ) throws CommonApplicationException {
+        log.info("Received request with Authorization Header: {}", authorizationHeader);
+        var userDetails = jwtService.validateTokenAndReturnDetail(authorizationHeader.substring(7));
+        log.info("Request for Dr. {} to delete an Health record", userDetails.get("name"));
+        String userEmail = userDetails.get("email");
+        GenericResponse<String> apiResponse = healthRecordServics.deleteRecord(recordId, userEmail);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
 }

@@ -12,7 +12,7 @@ public class HealthRecordResponse {
     private String userEmail;
     private String doctorEmail;
     private String userName;
-    private String patientId;
+    private String doctorId;
     private String genoType;
     private String bloodGroup;
     private Integer pulseRate;
