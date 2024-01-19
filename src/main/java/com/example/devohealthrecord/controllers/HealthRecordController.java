@@ -65,7 +65,7 @@ public class HealthRecordController {
     }
 
     @PutMapping("/update/{orderId}")
-    public ResponseEntity<GenericResponse<?>> updateOrder(
+    public ResponseEntity<GenericResponse<?>> updateHealthRecord(
             @PathVariable Long orderId,
             @RequestBody HealthRecordDTO request, @RequestHeader("Authorization") String authorizationHeader) throws CommonApplicationException {
         var userDetails = jwtService.validateTokenAndReturnDetail(authorizationHeader.substring(7));
