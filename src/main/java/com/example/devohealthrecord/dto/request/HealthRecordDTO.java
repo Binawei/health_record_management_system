@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HealthRecordDTO {
-    private LocalDateTime appointmentDate;
     private String genoType;
     private String bloodGroup;
     private Integer pulseRate;

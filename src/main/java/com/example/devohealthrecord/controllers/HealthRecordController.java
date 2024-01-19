@@ -59,7 +59,7 @@ public class HealthRecordController {
             @RequestHeader("Authorization") String authorizationHeader
     ) throws CommonApplicationException {
         var userDetails = jwtService.validateTokenAndReturnDetail(authorizationHeader.substring(7));
-        log.info("User {} is retrieving all orders", userDetails.get("name"));
+        log.info("User {} is retrieving all health records", userDetails.get("name"));
         GenericResponse<Page<HealthRecord>> orders = healthRecordServics.viewAllHealthRecords(page, size);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class HealthRecordController {
             @PathVariable Long orderId,
             @RequestBody HealthRecordDTO request, @RequestHeader("Authorization") String authorizationHeader) throws CommonApplicationException {
         var userDetails = jwtService.validateTokenAndReturnDetail(authorizationHeader.substring(7));
-        log.info("Request for customer {} to delete an order", userDetails.get("name"));
+        log.info("Request for Dr. {} to delete an health record", userDetails.get("name"));
         String userEmail = userDetails.get("email");
         GenericResponse<HealthRecordResponse> updatedOrder = healthRecordServics.updateHealthRecord(orderId, request, userEmail);
         return new ResponseEntity<>(updatedOrder, HttpStatus.CREATED);
