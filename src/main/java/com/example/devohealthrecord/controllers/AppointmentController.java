@@ -25,7 +25,7 @@ public class AppointmentController {
     public ResponseEntity<GenericResponse> createAppointment(@Valid @RequestBody AppointmentRequest request, @RequestHeader("Authorization") String authorizationHeader) throws CommonApplicationException {
         var userDetails = jwtService.validateTokenAndReturnDetail(authorizationHeader.substring(7));
         log.info("request for user {} to book appointment", userDetails.get("name"));
-        log.info("request for user with email {} to book appointment", userDetails.get("name"));
+        log.info("request for user with email {} to book appointment", userDetails.get("email"));
         GenericResponse apiResponse = userService.BookAppointment(request, (String) userDetails.get("email"));
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }

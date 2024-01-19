@@ -37,8 +37,8 @@ public class HealthRecordController {
     ) throws CommonApplicationException {
         var userDetails = jwtService.validateTokenAndReturnDetail(authorizationHeader.substring(7));
         log.info("User {} is viewing health with ID {}", userDetails.get("name"), recordId);
-        GenericResponse<?> order = healthRecordServics.findHealthRecordById(recordId);
-        return new ResponseEntity<>(order, HttpStatus.FOUND);
+        GenericResponse<?> record = healthRecordServics.findHealthRecordById(recordId);
+        return new ResponseEntity<>(record, HttpStatus.FOUND);
     }
 
     @GetMapping("/user/{recordId}")
@@ -48,8 +48,8 @@ public class HealthRecordController {
     ) throws CommonApplicationException {
         var userDetails = jwtService.validateTokenAndReturnDetail(authorizationHeader.substring(7));
         log.info("User {} is viewing health with ID {}", userDetails.get("name"), recordId);
-        GenericResponse<?> order = healthRecordServics.UserFindHealthRecordById(recordId, (String) userDetails.get("email"));
-        return new ResponseEntity<>(order, HttpStatus.FOUND);
+        GenericResponse<?> record = healthRecordServics.UserFindHealthRecordById(recordId, (String) userDetails.get("email"));
+        return new ResponseEntity<>(record, HttpStatus.FOUND);
     }
 
     @GetMapping("/all-records")
@@ -60,8 +60,8 @@ public class HealthRecordController {
     ) throws CommonApplicationException {
         var userDetails = jwtService.validateTokenAndReturnDetail(authorizationHeader.substring(7));
         log.info("User {} is retrieving all health records", userDetails.get("name"));
-        GenericResponse<Page<HealthRecord>> orders = healthRecordServics.viewAllHealthRecords(page, size);
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+        GenericResponse<Page<HealthRecord>> records = healthRecordServics.viewAllHealthRecords(page, size);
+        return new ResponseEntity<>(records, HttpStatus.OK);
     }
 
     @PutMapping("/update/{orderId}")
@@ -71,8 +71,8 @@ public class HealthRecordController {
         var userDetails = jwtService.validateTokenAndReturnDetail(authorizationHeader.substring(7));
         log.info("Request for Dr. {} to delete an health record", userDetails.get("name"));
         String userEmail = userDetails.get("email");
-        GenericResponse<HealthRecordResponse> updatedOrder = healthRecordServics.updateHealthRecord(orderId, request, userEmail);
-        return new ResponseEntity<>(updatedOrder, HttpStatus.CREATED);
+        GenericResponse<HealthRecordResponse> updatedHealthRecord = healthRecordServics.updateHealthRecord(orderId, request, userEmail);
+        return new ResponseEntity<>(updatedHealthRecord, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{recordId}")
